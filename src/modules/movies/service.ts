@@ -13,28 +13,6 @@ export abstract class Movies {
       const listData = await res.json();
       //   console.log(listData);
       return listData.data as MovieList[];
-
-      // const file = readFileSync("./cm-movies.json", {
-      //   encoding: "utf-8",
-      // });
-
-      // const pageByMovies = JSON.parse(file) as Movie[];
-      // console.log(pageByMovies[0].title);
-      // return pageByMovies.slice(Number(page) - 1, 20).map((item) => ({
-      //   categories: item.categories,
-
-      //   id: item.id,
-      //   is_adult: item.is_adult,
-      //   poster: item.poster,
-      //   rating: item.rating,
-      //   resolution: item.resolution,
-      //   slug: item.slug,
-      //   title: item.title,
-      //   type: item.type,
-      //   year: item.year,
-      //   decription: item.details?.overview,
-      //   director: item.details?.directors,
-      // }));
     } catch (err) {
       console.log(err);
       return MoviesPage.getMoviesInvalid;
