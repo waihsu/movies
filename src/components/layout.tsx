@@ -3,9 +3,9 @@ import NavBar from "./nav-bar";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    <div className="min-w-screen bg-chart-5 min-h-screen">
+    <div className="max-w-screen min-h-svh relative overscroll-x-none">
       <NavBar />
-      {children}
+      <div className=" container mx-auto min-w-screen ">{children}</div>
     </div>
   );
 }

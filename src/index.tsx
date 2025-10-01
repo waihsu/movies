@@ -1,5 +1,6 @@
 // src/server.ts
-
+import index from "@/index.html";
+import { serve } from "bun";
 import createApp from "./services/create-app";
 
 const BASE_PORT = Number(process.env.PORT) || 3000;
@@ -11,23 +12,19 @@ async function start() {
   for (let i = 0; i < MAX_TRIES; i++) {
     const port = BASE_PORT + i;
     try {
-      // Elysia.listen can be sync or return a Promise depending on runtime.
-      const out = app.listen(port as any);
+      const server = serve({
+        port,
+        routes: {
+          "/*": index,
+          "/api/v1/*": app.fetch,
+        },
+        // fetch: app.fetch,
+      });
 
-      if (out && typeof (out as any).then === "function") {
-        // async listen
-        const res = await (out as any);
-        const actualPort = res?.port ?? port;
-        console.log(`🚀 Server running at http://localhost:${actualPort}`);
-        console.log(`📚 OpenAPI docs: http://localhost:${actualPort}/openapi`);
-        return;
-      } else {
-        // sync listen
-        const actualPort = (out as any)?.port ?? port;
-        console.log(`🚀 Server running at http://localhost:${actualPort}`);
-        console.log(`📚 OpenAPI docs: http://localhost:${actualPort}/openapi`);
-        return;
-      }
+      console.log(`🚀 Server running at http://localhost:${server.port}`);
+      console.log(`📚 OpenAPI docs: http://localhost:${server.port}/openapi`);
+
+      return;
     } catch (err: any) {
       if (err?.code === "EADDRINUSE") {
         console.warn(`[start] port ${port} in use — trying ${port + 1}...`);

@@ -3,30 +3,17 @@ import { writeFileSync, readFileSync } from "fs";
 import type { Movie, MovieDetails, MovieList } from "./movie-type";
 
 export abstract class Movies {
-  static async getMovies({ page = "1" }: MoviesPage.getMovies) {
+  static async getMovies({ page }: MoviesPage.getMovies) {
     try {
+      console.log({ page });
       const res = await fetch(`${Bun.env.API}/movies?page=${page}`, {
-        // verbose: true,
+        verbose: true,
       });
       if (!res.ok) return MoviesPage.moviesNotFound;
       const listData = await res.json();
       //   console.log(listData);
       return listData.data as MovieList[];
-      // return listData.data.map((item) => ({
-      //   categories: item.categories,
 
-      //   id: item.id,
-      //   is_adult: item.is_adult,
-      //   poster: item.poster,
-      //   rating: item.rating,
-      //   resolution: item.resolution,
-      //   slug: item.slug,
-      //   title: item.title,
-      //   type: item.type,
-      //   year: item.year,
-      //   decription: item.details?.overview,
-      //   director: item.details?.directors,
-      // }));
       // const file = readFileSync("./cm-movies.json", {
       //   encoding: "utf-8",
       // });
@@ -54,9 +41,10 @@ export abstract class Movies {
     }
   }
   static async getMovie({ slug }: MoviesPage.getMovieByName) {
+    console.log({ slug });
     try {
       const res = await fetch(`${Bun.env.API}/movies/${slug}`, {
-        // verbose: true,
+        verbose: true,
       });
       if (!res.ok) return MoviesPage.getMoviesInvalid;
       const movieDataJson = await res.json();
@@ -91,28 +79,6 @@ export abstract class Movies {
         movie_download_links: movieData.movie_download_links,
       };
       return movie;
-      // const file = readFileSync("./cm-movies.json", {
-      //   encoding: "utf-8",
-      // });
-
-      // const allMovies = JSON.parse(file) as Movie[];
-      // const validMovie = allMovies.find((movie) => movie.slug === slug);
-      // if (!validMovie) return MoviesPage.moviesNotFound;
-      // return {
-      //   categories: validMovie.categories,
-
-      //   id: validMovie.id,
-      //   is_adult: validMovie.is_adult,
-      //   poster: validMovie.poster,
-      //   rating: validMovie.rating,
-      //   resolution: validMovie.resolution,
-      //   slug: validMovie.slug,
-      //   title: validMovie.title,
-      //   type: validMovie.type,
-      //   year: validMovie.year,
-      //   decription: validMovie.details?.overview,
-      //   director: validMovie.details?.directors,
-      // };
     } catch (err) {
       console.log(err);
       return MoviesPage.getMoviesInvalid;

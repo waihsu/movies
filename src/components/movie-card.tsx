@@ -13,6 +13,7 @@ import {
 import { Card } from "./ui/card";
 import { Button } from "./ui/button";
 import { Badge } from "./ui/badge";
+import { reactLogo } from "@/lib/logoAssets";
 
 interface Genre {
   id: number;
@@ -44,27 +45,27 @@ export function MovieCard({
   const [isHovered, setIsHovered] = useState(false);
 
   return (
-    <div className="movie-card-3d w-xs md:w-[220] ">
+    <div className="movie-card-3d w-xs sm:w-[220] lg:w-[260]">
       <Card
         className="movie-card-hover relative overflow-hidden bg-gradient-to-br from-card via-card to-muted border-2 border-primary/20 shadow-2xl max-w-sm"
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
         {/* Floating decorative elements */}
-        <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 rounded-full floating-animation animate-pulse opacity-60" />
+        <div className="absolute -top-2 -right-2 w-8 h-8 bg-orange-500 rounded-full floating-animation animate-pulse opacity-60 z-50" />
         <div
           className="absolute top-4 -left-1 w-4 h-4 bg-secondary rounded-full floating-animation opacity-40"
           style={{ animationDelay: "2s" }}
         />
         <div
-          className="absolute bottom-8 -right-1 w-6 h-6 bg-primary rounded-full floating-animation opacity-50"
+          className="absolute bottom-8 -right-1 w-6 h-6 bg-chart-1 rounded-full floating-animation opacity-50"
           style={{ animationDelay: "4s" }}
         />
 
         {/* Poster Section */}
         <div className="relative h-80 overflow-hidden">
           <img
-            src={poster || "/placeholder.svg"}
+            src={poster || reactLogo}
             alt={title}
             className={`w-full h-full object-cover transition-transform duration-500 ${
               isHovered ? "scale-110" : "scale-100"
@@ -119,9 +120,9 @@ export function MovieCard({
         </div>
 
         {/* Content Section */}
-        <div className="p-6 space-y-4 bg-orange-500">
+        <div className="p-4 space-y-4 ">
           {/* Title and Year */}
-          <div className="space-y-2 bg-accent">
+          <div className="space-y-2 ">
             <h3 className="font-bold text-sm gradient-text text-balance leading-tight">
               {title}
             </h3>

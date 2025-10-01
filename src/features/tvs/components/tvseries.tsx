@@ -1,20 +1,14 @@
 import Layout from "@/components/layout";
 import { MovieCard } from "@/components/movie-card";
 import reactLogo from "@/react.svg";
-import { useQuery } from "@tanstack/react-query";
-import {
-  getMovieDetails,
-  getMoviesByPage,
-} from "@/features/mvs/api/useGetMovies";
 import { Link } from "react-router";
-import { getTvseriesByPage } from "../api/use-get-tvseries";
+import { useGetTvSeries } from "../api/use-get-tvseries";
+import { useState } from "react";
 
 export function TvseriesScreen() {
-  const page = 1;
-  const { data, isFetched, isPending, isLoading, isError } = useQuery({
-    queryKey: ["movies", page],
-    queryFn: async () => await getTvseriesByPage({ page }),
-    retry: 1,
+  const [page, setPage] = useState<number>(1);
+  const { data, isFetched, isPending, isLoading, isError } = useGetTvSeries({
+    page,
   });
 
   if (isLoading && isPending)
@@ -30,10 +24,10 @@ export function TvseriesScreen() {
   if (!data) return null;
   return (
     <Layout>
-      <div className="container bg-chart-2 mx-auto p-8 text-center relative z-10">
-        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-3 gap-8 place-items-center">
+      <div className="container mx-auto p-8 text-center relative z-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
           {data.map((movie) => (
-            <Link to={`/${movie.slug}`} key={movie.id}>
+            <Link to={`/tv-series/${movie.slug}`} key={movie.id}>
               <MovieCard
                 title={movie.title}
                 year={movie.year}

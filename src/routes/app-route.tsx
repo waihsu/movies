@@ -12,14 +12,16 @@ import {
 import MovieDetails from "@/features/mvs/components/details";
 import TvseriesScreen from "@/features/tvs/components/tvseries";
 import TvseriesDetails from "@/features/tvs/components/details";
+import Home from "@/features/home/components/home";
 
 export default function AppRoute() {
   const queryClient = new QueryClient();
   return (
     <QueryClientProvider client={queryClient}>
       <Routes>
-        <Route path="/" element={<MoviesScreen />} />
-        <Route path="/:slug" element={<MovieDetails />} />
+        <Route path="/" element={<Home />} />
+        <Route path="/movies" element={<MoviesScreen />} />
+        <Route path="/movies/:slug" element={<MovieDetails />} />
         <Route path="/tv-series" element={<TvseriesScreen />} />
         <Route path="/tv-series/:slug" element={<TvseriesDetails />} />
       </Routes>

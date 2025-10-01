@@ -8,7 +8,8 @@ export const movies = new Elysia({ prefix: "/movies" })
     "/",
     async ({ query }) => {
       const { page } = query;
-      const response = await Movies.getMovies({ page });
+      const hasPage = page ? page : "1";
+      const response = await Movies.getMovies({ page: hasPage });
       return response;
     },
     {

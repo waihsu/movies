@@ -2,7 +2,7 @@
   "compilerOptions": {
     "jsx": "react-jsx",
     "allowJs": true,
-
+    "plugins": [{ "name": "@kitajs/ts-html-plugin" }],
     // Bundler mode
     "moduleResolution": "bundler",
     "module": "preserve",
@@ -10,9 +10,9 @@
     "verbatimModuleSyntax": true,
     "noEmit": true,
 
-    "baseUrl": ".",
+    "baseUrl": "./src",
     "paths": {
-      "@/*": ["./src/*"],
+      "@/*": ["./*"]
     }
   },
   "include": ["**/*.ts", "**/*.tsx"],
