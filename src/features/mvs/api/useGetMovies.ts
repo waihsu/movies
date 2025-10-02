@@ -3,7 +3,7 @@ import { keepPreviousData, useQuery } from "@tanstack/react-query";
 
 export const useGetMovies = ({ page }: { page: number }) => {
   return useQuery({
-    queryKey: [page],
+    queryKey: ["movies", page],
     queryFn: async () => await getMoviesByPage({ page }),
     placeholderData: keepPreviousData,
   });

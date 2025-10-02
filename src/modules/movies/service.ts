@@ -56,7 +56,7 @@ export abstract class Movies {
         shareable_link: movieData.shareable_link,
         movie_download_links: movieData.movie_download_links,
       };
-      return movie;
+      return movie as MovieDetails;
     } catch (err) {
       console.log(err);
       return MoviesPage.getMoviesInvalid;

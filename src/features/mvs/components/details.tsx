@@ -23,6 +23,7 @@ import {
 } from "lucide-react";
 import BackButton from "@/components/back-button";
 import { useGetMovieDetails } from "../api/useGetMovieDetails";
+import Loading from "@/components/loading";
 
 export default function MovieDetails() {
   const { slug } = useParams<{ slug: string }>();
@@ -30,8 +31,8 @@ export default function MovieDetails() {
 
   const [selectedResolution, setSelectedResolution] = useState<string>("all");
 
-  const { data, isFetched, isPending, isLoading } = useGetMovieDetails({
-    slug,
+  const { data, isError, isPending, isLoading } = useGetMovieDetails({
+    slug: slug!,
   });
 
   if (isLoading && isPending)
@@ -46,17 +47,30 @@ export default function MovieDetails() {
   const resolutions = [
     "all",
     ...Array.from(
-      new Set(data.movie_download_links.map((link) => link.resolution))
+      new Set(data && data.movie_download_links.map((link) => link.resolution))
     ),
   ];
   const filteredLinks =
     selectedResolution === "all"
-      ? data.movie_download_links
-      : data.movie_download_links.filter(
+      ? data?.movie_download_links
+      : data?.movie_download_links.filter(
           (link) => link.resolution === selectedResolution
         );
 
-  console.log(data);
+  if (isError) {
+    return (
+      <Layout>
+        <div className="container flex justify-center items-center min-h-svh ">
+          <Card className="flex justify-center items-center max-w-sm p-3 glass-effect">
+            <Loading height={20} />
+            <p>Movie Not Found!</p>
+            <Loading height={20} />
+          </Card>
+        </div>
+      </Layout>
+    );
+  }
+
   if (!data) return null;
   return (
     <Layout>
@@ -178,50 +192,51 @@ export default function MovieDetails() {
                 </div>
 
                 <div className="grid gap-4">
-                  {filteredLinks.map((link) => (
-                    <div
-                      key={link.id}
-                      className="glass-card border-white/30 p-6 rounded-2xl hover:scale-[1.02] transition-all group"
-                    >
-                      <div className="flex items-center justify-between gap-4 flex-wrap">
-                        <div className="flex items-center gap-4">
-                          <div className="glass-card p-4 rounded-xl bg-secondary/10">
-                            <Film className="w-6 h-6 text-secondary" />
-                          </div>
-                          <div>
-                            <div className="flex items-center gap-3 mb-2">
-                              <h4 className="font-semibold text-lg text-foreground">
-                                {link.server_name}
-                              </h4>
-                              <Badge className="bg-secondary/20 text-secondary border-secondary/30">
-                                {link.viewable}
-                              </Badge>
+                  {filteredLinks &&
+                    filteredLinks.map((link) => (
+                      <div
+                        key={link.id}
+                        className="glass-card border-white/30 p-6 rounded-2xl hover:scale-[1.02] transition-all group"
+                      >
+                        <div className="flex items-center justify-between gap-4 flex-wrap">
+                          <div className="flex items-center gap-4">
+                            <div className="glass-card p-4 rounded-xl bg-secondary/10">
+                              <Film className="w-6 h-6 text-secondary" />
                             </div>
-                            <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                              <span className="font-medium">
-                                {link.quality} {link.resolution}
-                              </span>
-                              <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
-                              <span className="font-medium">{link.size}</span>
+                            <div>
+                              <div className="flex items-center gap-3 mb-2">
+                                <h4 className="font-semibold text-lg text-foreground">
+                                  {link.server_name}
+                                </h4>
+                                <Badge className="bg-secondary/20 text-secondary border-secondary/30">
+                                  {link.viewable}
+                                </Badge>
+                              </div>
+                              <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                                <span className="font-medium">
+                                  {link.quality} {link.resolution}
+                                </span>
+                                <span className="w-1.5 h-1.5 rounded-full bg-muted-foreground/50" />
+                                <span className="font-medium">{link.size}</span>
+                              </div>
                             </div>
                           </div>
-                        </div>
-                        <Button
-                          asChild
-                          className="bg-gradient-to-r from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-white font-semibold transition-all duration-300 group-hover:scale-105 rounded-xl"
-                        >
-                          <a
-                            href={link.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
+                          <Button
+                            asChild
+                            className="bg-gradient-to-r from-secondary to-secondary/80 hover:from-secondary/90 hover:to-secondary/70 text-white font-semibold transition-all duration-300 group-hover:scale-105 rounded-xl"
                           >
-                            <Download className="w-5 h-5 mr-2" />
-                            Download
-                          </a>
-                        </Button>
+                            <a
+                              href={link.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              <Download className="w-5 h-5 mr-2" />
+                              Download
+                            </a>
+                          </Button>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
                 </div>
               </Card>
 

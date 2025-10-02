@@ -4,7 +4,7 @@ export abstract class Tvseries {
   static async getTvserieByPage({ page = 1 }: TvseriesPage.getTvseriesQuery) {
     try {
       const res = await fetch(`${Bun.env.API}/tv-shows?page=${page}`, {
-        // verbose: true,
+        verbose: true,
       });
       if (!res.ok) {
         console.log(`❌ Failed to fetch tvseres page ${page}`);
@@ -19,10 +19,10 @@ export abstract class Tvseries {
   static async getTvseriesByName({ slug }: TvseriesPage.getTvseriesParams) {
     try {
       const res = await fetch(`${Bun.env.API}/tv-shows/${slug}`, {
-        // verbose: true,
+        verbose: true,
       });
       if (!res.ok) {
-        console.log(`❌ Failed to fetch tvseres `);
+        return null;
       }
       const tvseries = await res.json();
       return tvseries.data;

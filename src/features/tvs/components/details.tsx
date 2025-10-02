@@ -14,15 +14,24 @@ import {
 } from "@/components/ui/collapsible";
 import BackButton from "@/components/back-button";
 import { useGetTvDetails } from "../api/use-get-tvdetails";
+import type {
+  Cast,
+  Category,
+  Season,
+  Tag,
+} from "@/modules/tvseries/tvseries-type";
+import Loading from "@/components/loading";
+import { Card } from "@/components/ui/card";
 
 export default function TvseriesDetails() {
   const { slug } = useParams<{ slug: string }>();
   const {
     data: seriesData,
+    isError,
     isFetched,
     isPending,
     isLoading,
-  } = useGetTvDetails({ slug });
+  } = useGetTvDetails({ slug: slug! });
   if (isLoading && isPending)
     return (
       <img
@@ -31,6 +40,20 @@ export default function TvseriesDetails() {
         className="h-36 p-6 transition-all duration-300 hover:drop-shadow-[0_0_2em_#61dafbaa] [animation:spin_20s_linear_infinite]"
       />
     );
+
+  if (isError) {
+    return (
+      <Layout>
+        <div className="container flex justify-center items-center min-h-svh ">
+          <Card className="flex justify-center items-center max-w-sm p-3 glass-effect">
+            <Loading height={20} />
+            <p>Movie Not Found!</p>
+            <Loading height={20} />
+          </Card>
+        </div>
+      </Layout>
+    );
+  }
 
   return (
     <Layout>
@@ -51,7 +74,7 @@ export default function TvseriesDetails() {
           <div className="relative h-full max-w-7xl mx-auto px-6 flex items-end pb-12">
             <div className="flex gap-8 items-end">
               {/* Poster */}
-              <div className="relative group">
+              <div className="hidden sm:flex relative group">
                 <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
                 <img
                   src={seriesData.poster || "/placeholder.svg"}
@@ -126,8 +149,8 @@ export default function TvseriesDetails() {
                 </h2>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
                   {seriesData.casts &&
-                    seriesData.casts.map((cast, index) => (
-                      <div key={index} className="group">
+                    seriesData.casts.map((cast: Cast) => (
+                      <div key={cast.id} className="group">
                         <div className="relative overflow-hidden rounded-2xl mb-3">
                           <img
                             src={cast.profile_path || "/placeholder.svg"}
@@ -150,7 +173,7 @@ export default function TvseriesDetails() {
                   Episodes
                 </h2>
 
-                {seriesData.seasons.map((season) => (
+                {seriesData.seasons.map((season: Season) => (
                   <div key={season.id} className="space-y-4">
                     <h3 className="text-xl font-semibold text-gray-800 mb-4">
                       {season.name}
@@ -269,7 +292,7 @@ export default function TvseriesDetails() {
                   Genres
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {seriesData.categories.map((category) => (
+                  {seriesData.categories.map((category: Category) => (
                     <Badge
                       key={category.id}
                       variant="secondary"
@@ -287,7 +310,7 @@ export default function TvseriesDetails() {
                   Tags
                 </h3>
                 <div className="flex flex-wrap gap-2">
-                  {seriesData.tags.map((tag) => (
+                  {seriesData.tags.map((tag: Tag) => (
                     <Badge
                       key={tag.id}
                       variant="outline"

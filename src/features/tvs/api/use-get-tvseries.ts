@@ -2,7 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetTvSeries = ({ page }: { page: number }) => {
   return useQuery({
-    queryKey: [page],
+    queryKey: ["series", page],
     queryFn: async () => await getTvseriesByPage({ page }),
   });
 };

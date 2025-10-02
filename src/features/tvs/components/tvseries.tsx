@@ -6,6 +6,7 @@ import { useGetTvSeries } from "../api/use-get-tvseries";
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import Loading from "@/components/loading";
+import type { TvSeries } from "@/modules/tvseries/tvseries-type";
 
 export function TvseriesScreen() {
   const [page, setPage] = useState<number>(1);
@@ -36,16 +37,16 @@ export function TvseriesScreen() {
     <Layout>
       <div className="container mx-auto p-8 text-center relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
-          {data.map((movie) => (
+          {data.map((movie: TvSeries) => (
             <Link to={`/tv-series/${movie.slug}`} key={movie.id}>
               <MovieCard
                 title={movie.title}
                 year={movie.year}
-                poster={movie.poster}
+                poster={movie.poster!}
                 genre={[]}
                 isLiked
                 isSaved
-                rating={movie.rating}
+                rating={movie.rating as string}
               />
             </Link>
           ))}

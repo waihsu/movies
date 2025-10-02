@@ -32,11 +32,12 @@ export function MoviesScreen() {
     );
 
   if (isError) return <div>Error</div>;
+  if (!data) return <div>no data</div>;
   return (
     <Layout>
       <div className="container mx-auto p-8 text-center relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-8 place-items-center">
-          {data.map((movie: Movie) => (
+          {data.map((movie) => (
             <Link to={`/movies/${movie.slug}`} key={movie.id}>
               <MovieCard
                 title={movie.title}

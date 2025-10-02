@@ -2,8 +2,9 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetTvDetails = ({ slug }: { slug: string }) => {
   return useQuery({
-    queryKey: [slug],
+    queryKey: ["serie", slug],
     queryFn: async () => await getTvseroesDetails({ slug }),
+    retry: 1,
   });
 };
 

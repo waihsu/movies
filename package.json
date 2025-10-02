@@ -6,12 +6,13 @@
   "main": "src/index.tsx",
   "module": "src/index.tsx",
   "scripts": {
-    "dev": "bun --watch src/index.tsx",
-    "start": "NODE_ENV=production bun src/index.tsx",
+    "dev": "bun --watch src/server.tsx",
+    "start": "NODE_ENV=production bun src/server.tsx",
     "build": "bun run build.ts"
   },
   "dependencies": {
     "@bogeychan/elysia-logger": "^0.1.10",
+    "@elysiajs/eden": "^1.4.1",
     "@elysiajs/node": "^1.4.1",
     "@elysiajs/openapi": "^1.4.11",
     "@elysiajs/static": "^1.4.0",

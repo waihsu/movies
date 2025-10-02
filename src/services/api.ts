@@ -6,11 +6,6 @@ import { movies } from "@/modules/movies";
 import { tvseries } from "@/modules/tvseries";
 import { createApp } from "./create-apps";
 
-export function createApi() {
-  const app = createApp("/api/v1")
-    .use(openapi({ path: "/openapi" })) // expose OpenAPI docs (see /openapi)
-    .use(movies)
-    .use(tvseries);
-
-  return app;
-}
+const api = createApp("/api/v1").use(movies).use(tvseries);
+export type Api = typeof api;
+export default api;

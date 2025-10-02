@@ -3,7 +3,7 @@ import { useQuery } from "@tanstack/react-query";
 
 export const useGetMovieDetails = ({ slug }: { slug: string }) => {
   return useQuery({
-    queryKey: [slug],
+    queryKey: ["movie", slug],
     queryFn: async () => await getMovieDetails({ slug }),
   });
 };
