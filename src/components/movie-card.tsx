@@ -73,18 +73,18 @@ export function MovieCard({
           />
 
           {/* Gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-#ec6e40/80 via-#956a1b00 to-#ff8b0600" />
 
           {/* Rating badge */}
-          <div className="absolute top-4 left-4 glass-effect rounded-full px-3 py-1">
+          {/* <div className="absolute top-4 left-4 glass-effect rounded-full px-3 py-1">
             <div className="flex items-center gap-1 text-white">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
               <span className="font-bold text-sm">{rating}</span>
             </div>
-          </div>
+          </div> */}
 
           {/* Action buttons */}
-          <div className="absolute top-4 right-4 flex flex-col gap-2">
+          {/* <div className="absolute top-4 right-4 flex flex-col gap-2">
             <Button
               size="icon"
               variant="ghost"
@@ -102,10 +102,10 @@ export function MovieCard({
             >
               <Share2 className="w-5 h-5" />
             </Button>
-          </div>
+          </div> */}
 
           {/* Play button overlay */}
-          <div
+          {/* <div
             className={`absolute inset-0 flex items-center justify-center transition-opacity duration-300 ${
               isHovered ? "opacity-100" : "opacity-0"
             }`}
@@ -116,7 +116,7 @@ export function MovieCard({
             >
               <Play className="w-8 h-8 ml-1" />
             </Button>
-          </div>
+          </div> */}
         </div>
 
         {/* Content Section */}

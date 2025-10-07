@@ -1,7 +1,9 @@
 import { Play, Sparkles, Film, TrendingUp } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router";
 
 export default function HeroSection() {
+  const nagivate = useNavigate();
   return (
     <section className="relative min-h-[90vh] flex items-center justify-center px-6 py-20">
       <div className="max-w-6xl mx-auto text-center space-y-12">
@@ -32,6 +34,7 @@ export default function HeroSection() {
         {/* CTA Buttons */}
         <div className="flex flex-wrap items-center justify-center gap-4">
           <Button
+            onClick={() => nagivate("/movies")}
             size="lg"
             className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-purple-600 hover:to-pink-600 text-white px-8 py-6 text-lg rounded-full shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
           >
