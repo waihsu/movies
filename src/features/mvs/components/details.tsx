@@ -1,4 +1,3 @@
-import Layout from "@/components/layout";
 import { Link, useParams } from "react-router";
 import { reactLogo } from "@/lib/logoAssets";
 import { useState } from "react";
@@ -46,7 +45,10 @@ export default function MovieDetails() {
   const resolutions = [
     "all",
     ...Array.from(
-      new Set(data.movie_download_links.map((link) => link.resolution))
+      new Set(
+        data.movie_download_links &&
+          data.movie_download_links.map((link) => link.resolution)
+      )
     ),
   ];
   const filteredLinks =
@@ -59,62 +61,61 @@ export default function MovieDetails() {
   console.log(data);
   if (!data) return null;
   return (
-    <Layout>
-      <div className=" min-h-screen relative">
-        {/* Back button */}
-        <div className="  p-3">
-          <BackButton link="/movies" title="Movies" />
-        </div>
+    <div className=" min-h-screen relative">
+      {/* Back button */}
+      <div className="  p-3">
+        <BackButton link="/movies" title="Movies" />
+      </div>
 
-        {/* Hero section with backdrop */}
-        <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
-          <div
-            className="absolute inset-0 bg-cover bg-center"
-            style={{ backgroundImage: `url(${data.backdrop_path})` }}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-blue-50 via-blue-50/80 to-transparent" />
-          <div className="absolute inset-0 bg-gradient-to-r from-blue-50/90 via-transparent to-pink-50/90" />
+      {/* Hero section with backdrop */}
+      <div className="relative h-[50vh] md:h-[70vh] overflow-hidden">
+        <div
+          className="absolute inset-0 bg-cover bg-center"
+          style={{ backgroundImage: `url(${data.backdrop_path})` }}
+        />
+        <div className="absolute inset-0 bg-gradient-to-t from-blue-50 via-blue-50/80 to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-r from-blue-50/90 via-transparent to-pink-50/90" />
 
-          <div className="relative h-full max-w-7xl mx-auto px-6 flex items-end pb-12">
-            <div className="flex gap-8 items-end">
-              {/* Poster */}
-              <div className="relative group hidden sm:flex">
-                <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
-                <img
-                  src={data.poster || "/placeholder.svg"}
-                  alt={data.title}
-                  className="relative w-64 h-96 object-cover rounded-2xl shadow-2xl"
-                />
+        <div className="relative h-full max-w-7xl mx-auto px-6 flex items-end pb-12">
+          <div className="flex gap-8 items-end">
+            {/* Poster */}
+            <div className="relative group hidden sm:flex">
+              <div className="absolute -inset-1 bg-gradient-to-r from-purple-600 to-pink-600 rounded-2xl blur-xl opacity-50 group-hover:opacity-75 transition-opacity" />
+              <img
+                src={data.poster || "/placeholder.svg"}
+                alt={data.title}
+                className="relative w-64 h-96 object-cover rounded-2xl shadow-2xl"
+              />
+            </div>
+
+            {/* Title and Basic Info */}
+            <div className="flex-1 pb-4">
+              <Badge className="mb-4 bg-purple-600/90 backdrop-blur-sm text-white border-0">
+                {data.type}
+              </Badge>
+              <h1 className="text-6xl font-bold text-gray-900 mb-2 font-serif">
+                {data.title}
+              </h1>
+              <p className="text-xl text-gray-600 mb-4">
+                {data.original_title}
+              </p>
+
+              <div className="flex items-center gap-6 text-gray-700">
+                <div className="flex items-center gap-2">
+                  <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
+                  <span className="font-semibold">{data.rating}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  <span>{data.year}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <Eye className="w-5 h-5" />
+                  <span>{data.views} views</span>
+                </div>
               </div>
 
-              {/* Title and Basic Info */}
-              <div className="flex-1 pb-4">
-                <Badge className="mb-4 bg-purple-600/90 backdrop-blur-sm text-white border-0">
-                  {data.type}
-                </Badge>
-                <h1 className="text-6xl font-bold text-gray-900 mb-2 font-serif">
-                  {data.title}
-                </h1>
-                <p className="text-xl text-gray-600 mb-4">
-                  {data.original_title}
-                </p>
-
-                <div className="flex items-center gap-6 text-gray-700">
-                  <div className="flex items-center gap-2">
-                    <Star className="w-5 h-5 fill-yellow-400 text-yellow-400" />
-                    <span className="font-semibold">{data.rating}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Calendar className="w-5 h-5" />
-                    <span>{data.year}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <Eye className="w-5 h-5" />
-                    <span>{data.views.toLocaleString()} views</span>
-                  </div>
-                </div>
-
-                {/* <div className="flex gap-3 mt-6">
+              {/* <div className="flex gap-3 mt-6">
                   <Button className="bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700 gap-2">
                     <Play className="w-5 h-5" />
                     Watch Now
@@ -126,59 +127,60 @@ export default function MovieDetails() {
                     Add to Watchlist
                   </Button>
                 </div> */}
-              </div>
             </div>
           </div>
         </div>
+      </div>
 
-        {/* Content section */}
+      {/* Content section */}
 
-        <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
-          <div className="grid lg:grid-cols-3 gap-12">
-            {/* Main content */}
-            <div className="lg:col-span-2 space-y-12">
-              {/* Overview */}
-              <Card className="glass-card border-white/30 p-8 space-y-6">
-                <h2 className="font-serif text-4xl font-bold text-foreground">
-                  Overview
-                </h2>
-                <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
-                  {data.overview}
-                </p>
-              </Card>
+      <div className="max-w-7xl mx-auto px-6 py-12 space-y-12">
+        <div className="grid lg:grid-cols-3 gap-12">
+          {/* Main content */}
+          <div className="lg:col-span-2 space-y-12">
+            {/* Overview */}
+            <Card className="glass-card border-white/30 p-8 space-y-6">
+              <h2 className="font-serif text-4xl font-bold text-foreground">
+                Overview
+              </h2>
+              <p className="text-lg text-muted-foreground leading-relaxed whitespace-pre-line">
+                {data.overview}
+              </p>
+            </Card>
 
-              <Card className="glass-card border-white/30 p-8 space-y-6">
-                <div className="flex items-center justify-between flex-wrap gap-4">
-                  <div className="flex items-center gap-3">
-                    <Download className="w-8 h-8 text-secondary" />
-                    <h2 className="font-serif text-4xl font-bold text-foreground">
-                      Download Links
-                    </h2>
-                  </div>
-                  {/* Resolution filter */}
-                  <div className="flex items-center gap-2">
-                    {resolutions.map((res) => (
-                      <Button
-                        key={res}
-                        variant={
-                          selectedResolution === res ? "default" : "outline"
-                        }
-                        size="sm"
-                        onClick={() => setSelectedResolution(res)}
-                        className={
-                          selectedResolution === res
-                            ? "bg-secondary text-white hover:bg-secondary/90"
-                            : "glass-card border-white/30 hover:scale-105 transition-all"
-                        }
-                      >
-                        {res === "all" ? "All" : res}
-                      </Button>
-                    ))}
-                  </div>
+            <Card className="glass-card border-white/30 p-8 space-y-6">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div className="flex items-center gap-3">
+                  <Download className="w-8 h-8 text-secondary" />
+                  <h2 className="font-serif text-4xl font-bold text-foreground">
+                    Download Links
+                  </h2>
                 </div>
+                {/* Resolution filter */}
+                <div className="flex items-center gap-2">
+                  {resolutions.map((res: any) => (
+                    <Button
+                      key={res}
+                      variant={
+                        selectedResolution === res ? "default" : "outline"
+                      }
+                      size="sm"
+                      onClick={() => setSelectedResolution(res)}
+                      className={
+                        selectedResolution === res
+                          ? "bg-secondary text-white hover:bg-secondary/90"
+                          : "glass-card border-white/30 hover:scale-105 transition-all"
+                      }
+                    >
+                      {res === "all" ? "All" : res}
+                    </Button>
+                  ))}
+                </div>
+              </div>
 
-                <div className="grid gap-4">
-                  {filteredLinks.map((link) => (
+              <div className="grid gap-4">
+                {filteredLinks &&
+                  filteredLinks.map((link) => (
                     <div
                       key={link.id}
                       className="glass-card border-white/30 p-6 rounded-2xl hover:scale-[1.02] transition-all group"
@@ -222,109 +224,103 @@ export default function MovieDetails() {
                       </div>
                     </div>
                   ))}
-                </div>
-              </Card>
+              </div>
+            </Card>
 
-              <Card className="glass-card border-white/30 p-8 space-y-6">
-                <h2 className="font-serif text-4xl font-bold text-foreground">
-                  Cast
-                </h2>
-                <div className="grid sm:grid-cols-2 gap-6">
-                  {data.casts &&
-                    data.casts.map((actor, index) => (
-                      <div
-                        key={index}
-                        className="glass-card border-white/30 p-6 rounded-2xl flex items-center gap-4 hover:scale-105 transition-all"
-                      >
-                        <img
-                          src={
-                            actor.profile_path ||
-                            "/placeholder.svg?height=80&width=80"
-                          }
-                          alt={actor.name}
-                          className="w-20 h-20 rounded-full object-cover ring-2 ring-secondary/30"
-                        />
-                        <div>
-                          <h4 className="font-semibold text-lg text-foreground">
-                            {actor.name}
-                          </h4>
-                        </div>
+            <Card className="glass-card border-white/30 p-8 space-y-6">
+              <h2 className="font-serif text-4xl font-bold text-foreground">
+                Cast
+              </h2>
+              <div className="grid sm:grid-cols-2 gap-6">
+                {data.casts &&
+                  data.casts.map((actor, index) => (
+                    <div
+                      key={index}
+                      className="glass-card border-white/30 p-6 rounded-2xl flex items-center gap-4 hover:scale-105 transition-all"
+                    >
+                      <img
+                        src={
+                          actor.profile_path ||
+                          "/placeholder.svg?height=80&width=80"
+                        }
+                        alt={actor.name}
+                        className="w-20 h-20 rounded-full object-cover ring-2 ring-secondary/30"
+                      />
+                      <div>
+                        <h4 className="font-semibold text-lg text-foreground">
+                          {actor.name}
+                        </h4>
                       </div>
-                    ))}
-                </div>
-              </Card>
-            </div>
+                    </div>
+                  ))}
+              </div>
+            </Card>
+          </div>
 
-            {/* Sidebar */}
-            <div className="space-y-8">
-              {/* Movie info */}
-              <Card className="glass-card border-white/30 p-8 space-y-6">
-                <h3 className="font-serif text-3xl font-bold text-foreground">
-                  Details
-                </h3>
+          {/* Sidebar */}
+          <div className="space-y-8">
+            {/* Movie info */}
+            <Card className="glass-card border-white/30 p-8 space-y-6">
+              <h3 className="font-serif text-3xl font-bold text-foreground">
+                Details
+              </h3>
+              <Separator className="bg-white/30" />
+              <div className="space-y-4">
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">Director</p>
+                  <p className="font-semibold text-foreground text-lg">
+                    {data.directors && data.directors.join(", ")}
+                  </p>
+                </div>
                 <Separator className="bg-white/30" />
-                <div className="space-y-4">
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Director
-                    </p>
-                    <p className="font-semibold text-foreground text-lg">
-                      {data.directors && data.directors.join(", ")}
-                    </p>
-                  </div>
-                  <Separator className="bg-white/30" />
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      TMDB ID
-                    </p>
-                    <p className="font-semibold text-foreground text-lg">
-                      {data.tmdb_id}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      IMDB ID
-                    </p>
-                    <p className="font-semibold text-foreground text-lg">
-                      {data.imdb_id}
-                    </p>
-                  </div>
-                  <Separator className="bg-white/30" />
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Total Views
-                    </p>
-                    <p className="font-semibold text-foreground text-lg">
-                      {data.views.toLocaleString()}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-muted-foreground mb-1">
-                      Available Formats
-                    </p>
-                    <p className="font-semibold text-foreground text-lg">
-                      {Array.from(
-                        new Set(
-                          data.movie_download_links.map((l) => l.resolution)
-                        )
-                      ).join(", ")}
-                    </p>
-                  </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">TMDB ID</p>
+                  <p className="font-semibold text-foreground text-lg">
+                    {data.tmdb_id}
+                  </p>
                 </div>
-              </Card>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">IMDB ID</p>
+                  <p className="font-semibold text-foreground text-lg">
+                    {data.imdb_id}
+                  </p>
+                </div>
+                <Separator className="bg-white/30" />
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Total Views
+                  </p>
+                  <p className="font-semibold text-foreground text-lg">
+                    {data.views}
+                  </p>
+                </div>
+                <div>
+                  <p className="text-sm text-muted-foreground mb-1">
+                    Available Formats
+                  </p>
+                  <p className="font-semibold text-foreground text-lg">
+                    {Array.from(
+                      new Set(
+                        data.movie_download_links &&
+                          data.movie_download_links.map((l) => l.resolution)
+                      )
+                    ).join(", ")}
+                  </p>
+                </div>
+              </div>
+            </Card>
 
-              {/* Movie poster */}
-              <Card className="glass-card border-white/30 overflow-hidden">
-                <img
-                  src={data.poster || "/placeholder.svg"}
-                  alt={data.title}
-                  className="w-full h-auto object-cover"
-                />
-              </Card>
-            </div>
+            {/* Movie poster */}
+            <Card className="glass-card border-white/30 overflow-hidden">
+              <img
+                src={data.poster || "/placeholder.svg"}
+                alt={data.title}
+                className="w-full h-auto object-cover"
+              />
+            </Card>
           </div>
         </div>
       </div>
-    </Layout>
+    </div>
   );
 }

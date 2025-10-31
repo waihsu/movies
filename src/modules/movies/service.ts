@@ -6,9 +6,7 @@ export abstract class Movies {
   static async getMovies({ page }: MoviesPage.getMovies) {
     try {
       console.log({ page });
-      const res = await fetch(`${Bun.env.API}/movies?page=${page}`, {
-        verbose: true,
-      });
+      const res = await fetch(`${Bun.env.MV_API}/movies?page=${page}`, {});
       if (!res.ok) return MoviesPage.moviesNotFound;
       const listData = await res.json();
       //   console.log(listData);
@@ -21,9 +19,7 @@ export abstract class Movies {
   static async getMovie({ slug }: MoviesPage.getMovieByName) {
     console.log({ slug });
     try {
-      const res = await fetch(`${Bun.env.API}/movies/${slug}`, {
-        verbose: true,
-      });
+      const res = await fetch(`${Bun.env.MV_API}/movies/${slug}`, {});
       if (!res.ok) return MoviesPage.getMoviesInvalid;
       const movieDataJson = await res.json();
       const movieData = movieDataJson.data as MovieDetails;

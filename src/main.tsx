@@ -12,11 +12,14 @@ import { BrowserRouter, Route, Routes } from "react-router";
 
 import AppRoute from "./routes/app-route";
 import "./index.css";
+import Layout from "./components/layout";
 
 const elem = document.getElementById("root")!;
 const app = (
   <BrowserRouter>
-    <AppRoute />
+    <Layout>
+      <AppRoute />
+    </Layout>
   </BrowserRouter>
 );
 

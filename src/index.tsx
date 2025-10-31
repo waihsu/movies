@@ -1,5 +1,5 @@
 // src/server.ts
-import index from "@/index.html";
+import index from "../dist/index.html";
 import { serve } from "bun";
 import { createApi } from "./services/create-api";
 

@@ -3,7 +3,7 @@ import { TvseriesPage } from "./model";
 export abstract class Tvseries {
   static async getTvserieByPage({ page = 1 }: TvseriesPage.getTvseriesQuery) {
     try {
-      const res = await fetch(`${Bun.env.API}/tv-shows?page=${page}`, {
+      const res = await fetch(`${Bun.env.MV_API}/tv-shows?page=${page}`, {
         // verbose: true,
       });
       if (!res.ok) {
@@ -18,7 +18,7 @@ export abstract class Tvseries {
   }
   static async getTvseriesByName({ slug }: TvseriesPage.getTvseriesParams) {
     try {
-      const res = await fetch(`${Bun.env.API}/tv-shows/${slug}`, {
+      const res = await fetch(`${Bun.env.MV_API}/tv-shows/${slug}`, {
         // verbose: true,
       });
       if (!res.ok) {
